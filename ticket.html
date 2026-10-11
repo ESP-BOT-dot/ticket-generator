@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ticket</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+:root{--bg:#f9d1b7;--w1:#ffffff;--w3:#f7f7f7;--b1:#4f4745;--b2:#4f4745;--b3:#919191;--accent:#ec660f;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:62.5%}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--b1);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,Arial,sans-serif;overflow-x:hidden;}
+.page{min-height:100vh;max-width:48rem;margin:0 auto;padding:6.8rem 0 9rem;background:var(--bg);position:relative;overflow:hidden;}
+.header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:48rem;height:6.8rem;z-index:30;background:rgba(255,255,255,.96);display:flex;align-items:center;justify-content:space-between;padding:0 1.6rem;border-bottom:1px solid rgba(0,0,0,.05);}
+.bg-words{position:absolute;top:8.2rem;left:0;width:86rem;height:72rem;z-index:0;transform:rotate(-30deg);transform-origin:25rem 70rem;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;}
+.bg-row{white-space:nowrap;display:flex;width:max-content;}
+.bg-track{display:inline-block;white-space:nowrap;color:var(--w3);font-family:"Bebas Neue",Arial,sans-serif;font-size:6.4rem;font-weight:700;letter-spacing:.2rem;line-height:1;opacity:.5;text-transform:uppercase;animation:bgMove 20s linear 1s infinite both;}
+@keyframes bgMove{0%{transform:translateX(0)}to{transform:translateX(-100%)}}
+.ticket-section{position:relative;z-index:2;padding:2.4rem 4.8rem 0}
+.ticket{width:100%;max-width:36.8rem;margin:0 auto;position:relative;display:flex;flex-direction:column;filter:drop-shadow(0 0 12px rgba(0,0,0,.4));}
+.image-area{width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;background:#eee;display:flex;align-items:center;justify-content:center}
+.image-blur{position:absolute;inset:0;background:center/cover no-repeat;filter:blur(7px);transform:scale(1.08);z-index:0}
+.image-main{position:relative;z-index:1;width:72%;height:86%;background-position:center;background-size:contain;background-repeat:no-repeat;background-color:rgba(255,255,255,.08);border-radius:.2rem;}
+.details{background:#fff;padding:1.6rem 2rem;display:flex;flex-direction:column;gap:1.8rem;position:relative;}
+.event-name{font-size:2.4rem;line-height:150%;font-weight:700;color:var(--b1)}
+.venue-row{font-size:1.2rem;font-weight:600;color:#4f4745;}
+.date-row{display:flex;align-items:center;gap:.8rem;height:2.8rem}
+.date{font-size:2.8rem;font-weight:700;}
+.weekday{font-size:1.6rem;font-weight:700;}
+.holder{display:flex;align-items:center;justify-content:space-between;gap:1.6rem}
+.name{font-weight:700;}
+.favorite{font-size:1.2rem;font-weight:700;}
+.ticket-name{font-size:1.6rem;font-weight:800;}
+.number{background:var(--accent);border-radius:2px;color:#fff;padding:1.1rem .8rem;font-size:2.4rem;font-weight:900;}
+.bottom{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:48rem;height:8.2rem;z-index:30;background:rgba(255,255,255,.88);display:flex;align-items:center;justify-content:center;}
+.enter-btn{background:var(--accent);color:#fff;border:none;height:5.6rem;width:25.2rem;border-radius:3.2rem;font-size:1.6rem;font-weight:700;}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="header"><div>Ticket</div></header>
+<div class="bg-words"><div class="bg-row"><span class="bg-track">TICKETDIVE TICKETDIVE</span></div></div>
+<section class="ticket-section">
+<div class="ticket">
+<div class="image-area">
+<div class="image-blur" id="imageBlur"></div>
+<div class="image-main" id="imageMain">DEMO</div>
+</div>
+<div class="details">
+<div class="event-name" id="title"></div>
+<div class="venue-row" id="venue"></div>
+<div class="date-row">
+<span class="date" id="date"></span>
+<span class="weekday" id="weekday"></span>
+<span>OPEN <span id="openTime"></span></span>
+<span>START <span id="startTime"></span></span>
+</div>
+<div class="holder">
+<div>
+<div><span class="name" id="name"></span> さま</div>
+<div class="favorite" id="favorite"></div>
+<div class="ticket-name" id="ticketName"></div>
+</div>
+<div class="number" id="ticketType"></div>
+</div>
+</div>
+</div>
+</section>
+<nav class="bottom"><button class="enter-btn">入場する</button></nav>
+</main>
+<script>
+const params = new URLSearchParams(location.search);
+const data = {
+image: params.get('image') || '',
+title: params.get('title') || 'タイトル',
+venue: params.get('venue') || '会場',
+date: params.get('date') || '',
+weekday: params.get('weekday') || '',
+openTime: params.get('openTime') || '',
+startTime: params.get('startTime') || '',
+name: params.get('name') || '',
+favorite: params.get('favorite') || '',
+ticketName: params.get('ticketName') || '',
+ticketType: params.get('ticketType') || '',
+bodyColor: params.get('bodyColor') || '#f9d1b7',
+ticketColor: params.get('ticketColor') || '#ec660f'
+};
+document.documentElement.style.setProperty('--bg', data.bodyColor);
+document.documentElement.style.setProperty('--accent', data.ticketColor);
+
+function setText(id, val){ const el = document.getElementById(id); if(el) el.textContent = val; }
+setText('title', data.title);
+setText('venue', data.venue);
+setText('date', data.date);
+setText('weekday', data.weekday);
+setText('openTime', data.openTime);
+setText('startTime', data.startTime);
+setText('name', data.name);
+setText('favorite', data.favorite);
+setText('ticketName', data.ticketName);
+setText('ticketType', data.ticketType);
+
+const imgMain = document.getElementById('imageMain');
+const imgBlur = document.getElementById('imageBlur');
+if(data.image){
+imgMain.style.backgroundImage = `url('${data.image}')`;
+imgMain.textContent = '';
+if(imgBlur) imgBlur.style.backgroundImage = `url('${data.image}')`;
+}
+</script>
+</body>
+</html>
