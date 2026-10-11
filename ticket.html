@@ -5,172 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ticket</title>
 <style>
-:root{
---bg:#f9d1b7;
---accent:#ec660f;
---card:#ffffff;
---text:#4f4745;
-}
-*{box-sizing:border-box;margin:0;padding:0}
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+:root{--bg:#f9d1b7;--accent:#ec660f;--w1:#fff;--b1:#4f4745;--b3:#919191;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{font-size:62.5%}
-body{
-background:var(--bg);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
-min-height:100vh;
-}
-.page{
-max-width:42rem;
-margin:0 auto;
-padding:2rem 1.6rem 12rem;
-}
-.ticket{
-background:var(--card);
-border-radius:1.2rem;
-overflow:hidden;
-box-shadow:0 6px 20px rgba(0,0,0,.12);
-position:relative;
-}
-.image-area{
-width:100%;
-aspect-ratio:1 / 1.15;
-background:#eee center/cover no-repeat;
-position:relative;
-}
-.image-main{
-position:absolute;inset:0;
-background:center/contain no-repeat;
-}
-/* 入場済スタンプ */
-.stamp{
-display:none;
-position:absolute;
-right:1rem;bottom:1rem;
-width:16rem;height:16rem;
-border-radius:50%;
-background:rgba(255,255,255,.9);
-z-index:10;
-pointer-events:none;
-}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--b1);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;overflow-x:hidden;}
+.page{min-height:100vh;max-width:48rem;margin:0 auto;padding:6.8rem 0 10rem;position:relative;overflow:hidden;}
+.header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:48rem;height:6.8rem;z-index:30;background:rgba(255,255,255,.96);display:flex;align-items:center;padding:0 1.6rem;border-bottom:1px solid rgba(0,0,0,.05);font-weight:700;font-size:1.8rem;}
+.bg-words{position:absolute;top:8rem;left:0;width:90rem;height:70rem;z-index:0;transform:rotate(-30deg);transform-origin:25rem 70rem;pointer-events:none;opacity:.35;}
+.bg-track{display:inline-block;white-space:nowrap;color:#f7f7f7;font-family:"Bebas Neue",Arial,sans-serif;font-size:6.4rem;font-weight:700;letter-spacing:.2rem;animation:bgMove 22s linear infinite;}
+@keyframes bgMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticket-section{position:relative;z-index:2;padding:2rem 3.5rem 0;}
+.ticket{width:100%;max-width:36rem;margin:0 auto;position:relative;filter:drop-shadow(0 0 12px rgba(0,0,0,.25));}
+.image-area{width:100%;aspect-ratio:1/.95;position:relative;overflow:hidden;background:#eee;}
+.image-main{position:absolute;inset:0;background:center/contain no-repeat;}
+.stamp{display:none;position:absolute;right:.5rem;bottom:.5rem;width:16.5rem;height:16.5rem;z-index:20;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;}
 .stamp.show{display:block;}
-.stamp .circle{
-position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-border-radius:50%;border:3px solid #ff0000;
-}
-.stamp .c1{width:15.5rem;height:15.5rem;}
-.stamp .c2{width:14.6rem;height:14.6rem;border-width:1.5px;}
-.stamp .top,.stamp .bottom{
-position:absolute;left:0;right:0;
-color:#ff0000;font-size:1.6rem;font-weight:700;text-align:center;
-}
-.stamp .top{top:1.6rem;}
-.stamp .bottom{bottom:1.6rem;transform:rotate(180deg);}
-.stamp .time{
-position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
-font-size:2.8rem;font-weight:700;color:#ff0000;text-align:center;
-}
-.details{padding:2rem 1.8rem 1.8rem;}
-.title{font-size:2.6rem;font-weight:800;line-height:1.2;margin-bottom:.6rem;}
-.venue{font-size:1.5rem;color:#7a716d;font-weight:600;margin-bottom:1.6rem;}
-.date-row{display:flex;align-items:flex-end;gap:1rem;margin-bottom:1.8rem;}
-.date{font-size:3.4rem;font-weight:800;line-height:1;}
-.weekday{font-size:1.8rem;font-weight:700;margin-bottom:.4rem;}
-.times{margin-left:auto;font-size:1.3rem;color:#919191;text-align:right;line-height:1.4;}
-.times b{color:var(--text);font-weight:700;}
-.bottom-info{display:flex;justify-content:space-between;align-items:center;padding-top:1.6rem;border-top:1px dashed #e0e6ed;}
-.name-area{font-size:1.5rem;line-height:1.5;}
+.stamp .c1,.stamp .c2{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:2px solid #ff0000;}
+.stamp .c1{width:16.2rem;height:16.2rem;}
+.stamp .c2{width:15.4rem;height:15.4rem;border-width:1px;}
+.stamp .top,.stamp .bot{position:absolute;left:0;right:0;color:#ff0000;font-size:1.7rem;font-weight:700;text-align:center;}
+.stamp .top{top:1.5rem;}
+.stamp .bot{bottom:1.5rem;transform:rotate(180deg);}
+.stamp .time{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);font-size:2.8rem;font-weight:700;color:#ff0000;text-align:center;}
+.details{background:#fff;padding:1.6rem 1.8rem;position:relative;}
+.details::before,.details::after{content:"";position:absolute;width:2.2rem;height:2.2rem;background:var(--bg);border-radius:50%;top:50%;transform:translateY(-50%);z-index:5;}
+.details::before{left:-1.1rem;}
+.details::after{right:-1.1rem;}
+.title{font-size:2.3rem;font-weight:800;line-height:1.3;margin-bottom:.8rem;}
+.venue{font-size:1.3rem;font-weight:600;color:#4f4745;margin-bottom:1.4rem;}
+.date-row{display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem;}
+.date{font-size:2.8rem;font-weight:800;}
+.weekday{font-size:1.6rem;font-weight:700;}
+.times{margin-left:auto;font-size:1.2rem;color:var(--b3);text-align:center;line-height:1.3;}
+.times b{color:var(--b1);font-weight:700;font-size:1.5rem;}
+.bottom-info{display:flex;justify-content:space-between;align-items:center;padding-top:1.4rem;border-top:1px dashed #eee;}
+.name-area{font-size:1.3rem;line-height:1.5;}
 .name{font-weight:700;}
-.favorite{color:#7a716d;font-size:1.4rem;}
-.ticket-name{font-weight:700;margin-top:.3rem;}
-.number{background:var(--accent);color:#fff;font-size:2.4rem;font-weight:900;padding:1.2rem 1.6rem;border-radius:.6rem;min-width:8rem;text-align:center;}
-.footer{
-position:fixed;bottom:0;left:0;right:0;
-background:rgba(255,255,255,.95);
-padding:1.4rem 1.6rem 2.2rem;
-display:flex;justify-content:center;
-border-top:1px solid rgba(0,0,0,.06);
-}
-.enter-btn{
-width:100%;max-width:34rem;height:5.8rem;
-background:var(--accent);color:#fff;border:none;border-radius:3rem;
-font-size:1.7rem;font-weight:700;cursor:pointer;
-}
-.enter-btn:active{opacity:.85;}
-.enter-btn.done{background:#c6c6c6;cursor:default;}
-
-/* 確認モーダル */
-.modal-backdrop{
-position:fixed;inset:0;background:rgba(0,0,0,.45);
-z-index:100;display:none;align-items:center;justify-content:center;
-padding:2rem;
-}
+.favorite{font-size:1.2rem;color:#4f4745;}
+.ticket-name{font-weight:800;margin-top:.3rem;}
+.number{background:var(--accent);color:#fff;font-size:2.3rem;font-weight:900;padding:1rem 1.2rem;border-radius:2px;min-width:7.5rem;text-align:center;}
+.footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:48rem;background:rgba(255,255,255,.92);padding:1.2rem 1.6rem 2rem;display:flex;justify-content:center;border-top:1px solid rgba(0,0,0,.06);}
+.enter-btn{width:100%;max-width:32rem;height:5.6rem;background:var(--accent);color:#fff;border:none;border-radius:3rem;font-size:1.6rem;font-weight:700;cursor:pointer;}
+.enter-btn.done{background:#c6c6c6;}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center;padding:2rem;}
 .modal-backdrop.show{display:flex;}
-.modal{
-background:#fff;border-radius:1.2rem;width:100%;max-width:34rem;
-padding:6rem 2.4rem 3rem;position:relative;text-align:center;
-box-shadow:0 1.2rem 3.2rem rgba(0,0,0,.25);
-}
-.modal-close{
-position:absolute;top:1.2rem;right:1.4rem;
-background:none;border:none;font-size:3.2rem;color:#5d5550;cursor:pointer;line-height:1;
-}
-.modal-warning{
-color:#ff0000;font-size:2.1rem;font-weight:900;margin-bottom:1.4rem;
-animation:glow 1s infinite;
-}
-@keyframes glow{
-0%,100%{text-shadow:0 0 6px rgba(255,0,0,.4)}
-50%{text-shadow:0 0 12px rgba(255,0,0,.8)}
-}
-.modal-title{font-size:2rem;font-weight:800;margin-bottom:2.4rem;}
-.modal-note{font-size:1.3rem;color:#777;line-height:1.6;margin-bottom:2.8rem;text-align:left;}
-.modal-actions{display:flex;gap:1.6rem;justify-content:center;}
-.modal-btn{
-flex:1;height:4.6rem;border-radius:2.4rem;font-size:1.4rem;font-weight:800;border:none;cursor:pointer;
-}
-.modal-cancel{background:#f5f5f5;color:#231916;}
+.modal{background:#fff;border-radius:1.2rem;width:100%;max-width:34rem;padding:6.5rem 2.4rem 3.5rem;position:relative;text-align:center;box-shadow:0 1rem 3rem rgba(0,0,0,.25);}
+.modal-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:3.2rem;color:#5d5550;cursor:pointer;}
+.modal-warning{color:#ff0000;font-size:2.1rem;font-weight:900;margin-bottom:1.2rem;animation:glow 1s infinite;}
+@keyframes glow{0%,100%{text-shadow:0 0 5px rgba(255,0,0,.45)}50%{text-shadow:0 0 12px rgba(255,0,0,.8)}}
+.modal-title{font-size:2rem;font-weight:800;margin-bottom:2.2rem;}
+.modal-note{font-size:1.28rem;color:#777;line-height:1.65;margin-bottom:2.6rem;text-align:left;}
+.modal-actions{display:flex;gap:1.6rem;}
+.modal-btn{flex:1;height:4.4rem;border-radius:2.4rem;font-size:1.35rem;font-weight:800;border:none;cursor:pointer;}
+.modal-cancel{background:#f7f7f7;color:#231916;}
 .modal-ok{background:linear-gradient(90deg,#7bc3e2,#489afb);color:#fff;}
 </style>
 </head>
 <body>
-<div class="page">
+<main class="page">
+<header class="header">Ticket Dive</header>
+<div class="bg-words"><span class="bg-track">TICKETDIVE TICKETDIVE TICKETDIVE TICKETDIVE </span></div>
+<section class="ticket-section">
 <div class="ticket">
 <div class="image-area" id="imageArea">
 <div class="image-main" id="imageMain"></div>
 <div class="stamp" id="stamp">
-<div class="circle c1"></div>
-<div class="circle c2"></div>
+<div class="c1"></div><div class="c2"></div>
 <div class="top">入場済</div>
 <div class="time" id="stampTime">--:--</div>
-<div class="bottom">入場済</div>
+<div class="bot">入場済</div>
 </div>
 </div>
 <div class="details">
 <div class="title" id="title">タイトル</div>
 <div class="venue" id="venue">会場</div>
 <div class="date-row">
-<span class="date" id="date">10.2</span>
-<span class="weekday" id="weekday">金</span>
-<div class="times">
-OPEN<br><b id="openTime">9:00</b><br>
-START<br><b id="startTime">11:00</b>
-</div>
+<span class="date" id="date">7.11</span>
+<span class="weekday" id="weekday">土</span>
+<div class="times">OPEN<br><b id="openTime">9:00</b><br>START<br><b id="startTime">9:30</b></div>
 </div>
 <div class="bottom-info">
 <div class="name-area">
-<div><span class="name" id="name">名前</span> さま</div>
-<div class="favorite" id="favorite">お目当て</div>
-<div class="ticket-name" id="ticketName">チケット名</div>
+<div><span class="name" id="name">デモ太郎</span>さま</div>
+<div class="favorite" id="favorite">ハニースパイスRe.</div>
+<div class="ticket-name" id="ticketName">【DAY1】VIPチケット</div>
 </div>
-<div class="number" id="ticketType">A-1</div>
-</div>
-</div>
+<div class="number" id="ticketType">SA-437</div>
 </div>
 </div>
-
-<div class="footer">
-<button class="enter-btn" id="enterBtn">入場する</button>
 </div>
+</section>
+</main>
+<div class="footer"><button class="enter-btn" id="enterBtn">入場する</button></div>
 
 <div class="modal-backdrop" id="modal">
 <div class="modal">
@@ -188,53 +115,48 @@ START<br><b id="startTime">11:00</b>
 <script>
 const p = new URLSearchParams(location.search);
 const data = {
-image: p.get('image') || '',
-title: p.get('title') || 'タイトル',
-venue: p.get('venue') || '会場',
-date: p.get('date') || '10.2',
-weekday: p.get('weekday') || '金',
-openTime: p.get('openTime') || '9:00',
-startTime: p.get('startTime') || '11:00',
-name: p.get('name') || '名前',
-favorite: p.get('favorite') || 'お目当て',
-ticketName: p.get('ticketName') || 'チケット名',
-ticketType: p.get('ticketType') || 'A-1',
-accent: p.get('ticketColor') || '#ec660f',
-bg: p.get('bodyColor') || '#f9d1b7'
+image: p.get('image')||'',
+title: p.get('title')||'SPARK 2026 渋谷納涼祭',
+venue: p.get('venue')||'ベルサール渋谷ガーデン / Spotify O-nest',
+date: p.get('date')||'7.11',
+weekday: p.get('weekday')||'土',
+openTime: p.get('openTime')||'9:00',
+startTime: p.get('startTime')||'9:30',
+name: p.get('name')||'デモ太郎',
+favorite: p.get('favorite')||'ハニースパイスRe.',
+ticketName: p.get('ticketName')||'【DAY1】VIPチケット',
+ticketType: p.get('ticketType')||'SA-437',
+accent: p.get('ticketColor')||'#ec660f',
+bg: p.get('bodyColor')||'#f9d1b7'
 };
 document.documentElement.style.setProperty('--accent', data.accent);
 document.documentElement.style.setProperty('--bg', data.bg);
 
-function set(id, v){ const el=document.getElementById(id); if(el) el.textContent = v; }
-['title','venue','date','weekday','openTime','startTime','name','favorite','ticketName','ticketType'].forEach(id => set(id, data[id]));
+function set(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+['title','venue','date','weekday','openTime','startTime','name','favorite','ticketName','ticketType'].forEach(id=>set(id,data[id]));
 
 if(data.image){
-document.getElementById('imageMain').style.backgroundImage = `url("${data.image}")`;
-document.getElementById('imageArea').style.backgroundImage = `url("${data.image}")`;
+document.getElementById('imageMain').style.backgroundImage=`url("${data.image}")`;
+document.getElementById('imageArea').style.backgroundImage=`url("${data.image}")`;
 }
 
-const enterBtn = document.getElementById('enterBtn');
-const modal = document.getElementById('modal');
-const stamp = document.getElementById('stamp');
-const stampTime = document.getElementById('stampTime');
+const enterBtn=document.getElementById('enterBtn');
+const modal=document.getElementById('modal');
+const stamp=document.getElementById('stamp');
+const stampTime=document.getElementById('stampTime');
 
-enterBtn.addEventListener('click', () => modal.classList.add('show'));
-document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('show'));
-document.getElementById('modalCancel').addEventListener('click', () => modal.classList.remove('show'));
-document.getElementById('modalOk').addEventListener('click', () => {
-const now = new Date();
-const h = String(now.getHours()).padStart(2,'0');
-const m = String(now.getMinutes()).padStart(2,'0');
-stampTime.textContent = h + ':' + m;
+enterBtn.onclick=()=>modal.classList.add('show');
+document.getElementById('modalClose').onclick=document.getElementById('modalCancel').onclick=()=>modal.classList.remove('show');
+document.getElementById('modalOk').onclick=()=>{
+const now=new Date();
+stampTime.textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
 stamp.classList.add('show');
-enterBtn.textContent = 'ボタンタップにより入場済';
+enterBtn.textContent='ボタンタップにより入場済';
 enterBtn.classList.add('done');
-enterBtn.disabled = true;
+enterBtn.disabled=true;
 modal.classList.remove('show');
-});
-modal.addEventListener('click', (e) => {
-if(e.target === modal) modal.classList.remove('show');
-});
+};
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show');};
 </script>
 </body>
 </html>
