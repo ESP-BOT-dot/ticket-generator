@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>チケット共有URL生成</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:600px;margin:20px auto;padding:0 16px;background:#f5f5f5}
+  h1{font-size:1.4rem}
+  label{display:block;margin:12px 0 4px;font-weight:600;font-size:0.9rem}
+  input,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font-size:1rem;box-sizing:border-box}
+  textarea{height:60px;resize:vertical}
+  button{margin-top:16px;padding:12px 24px;background:#5937E8;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;width:100%}
+  button:active{opacity:.85}
+  #result{margin-top:20px;padding:12px;background:#fff;border-radius:8px;word-break:break-all;font-size:0.85rem;display:none}
+  #result a{color:#5937E8}
+  .copy-btn{margin-top:8px;background:#333;font-size:0.9rem;padding:8px}
+</style>
+</head>
+<body>
+<h1>チケット共有URL生成</h1>
+<p>項目を入力して「生成」を押すと、他の人に渡せるURLが出ます。</p>
+
+<label>画像URL（元の画像URLでOK）</label>
+<input id="image" placeholder="storage.googleapis.com/... や ticketdive.com/_next/image?...">
+
+<label>タイトル</label>
+<input id="title" placeholder="例: 『クロフェス2026 7年目 ラッキー7アイドルフィーバーだしん！』">
+
+<label>会場</label>
+<input id="venue" placeholder="例: 【3DAYS通し券】クロフェス2026...">
+
+<label>日付</label>
+<input id="date" placeholder="例: 10.2">
+
+<label>曜日</label>
+<input id="weekday" placeholder="例: 金">
+
+<label>OPEN時間</label>
+<input id="openTime" placeholder="例: 9:00">
+
+<label>START時間</label>
+<input id="startTime" placeholder="例: 11:00">
+
+<label>名前</label>
+<input id="name" placeholder="例: 高山智史">
+
+<label>お目当て</label>
+<input id="favorite" placeholder="例: 愛乙女★DOLL">
+
+<label>チケット名</label>
+<input id="ticketName" placeholder="例: 【プレミア3DAYS】チケット">
+
+<label>整理番号など</label>
+<input id="ticketType" placeholder="例: P-78">
+
+<label>QRテキスト（任意）</label>
+<input id="qrText" placeholder="QRに入れる文字列（空欄可）">
+
+<button onclick="generate()">共有URLを生成</button>
+
+<div id="result">
+  <strong>共有用URL：</strong><br>
+  <a id="link" href="#" target="_blank"></a>
+  <button class="copy-btn" onclick="copyUrl()">URLをコピー</button>
+</div>
+
+<script>
+function generate(){
+  const base = 'ticketoive.github.io/com1/5.html';
+  const params = new URLSearchParams();
+
+  const fields = [
+    'image','title','venue','date','weekday','openTime','startTime',
+    'name','favorite','ticketName','ticketType','qrText'
+  ];
+
+  fields.forEach(id => {
+    const val = document.getElementById(id).value.trim();
+    if(val) params.set(id, val);
+  });
+
+  // よく使うオプション（必要なら変更可）
+  params.set('shareEnabled', 'false');
+  params.set('scrollTitle', 'true');
+  params.set('scrollVenue', 'true');
+  params.set('scrollTicket', 'true');
+  params.set('bgDirection', 'normal');
+
+  const url = base + '?' + params.toString();
+  const result = document.getElementById('result');
+  const link = document.getElementById('link');
+  link.href = url;
+  link.textContent = url;
+  result.style.display = 'block';
+}
+
+function copyUrl(){
+  const url = document.getElementById('link').href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('コピーしました！');
+  }).catch(() => {
+    prompt('コピーしてください', url);
+  });
+}
+</script>
+</body>
+</html>
